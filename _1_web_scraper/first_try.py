@@ -1,30 +1,18 @@
 # WEB SCRAPER 101
 #
 # What is it:
-# - Automation engine to get data from websites and either store it for later
-# parsing, or act on it immediately
-#
+# - Automation engine to get data from websites 
+# What's the use case:
+# - Getting data from a website that doesn't have a public API
+# 
+# Goal of this script:
+# - To get a list of all Python developer jobs from the Monster.ie job site.
+# I get an email from them every day listing developer jobs, but they usually
+# list exactly the same jobs multiple days in a row even if newer jobs are
+# available (presumably because those recruiters pay more).
 
 import requests
-from bs4 import BeautifulSoup
 
-URL = "https://www.monster.ie/jobs/search/?q=python-developer&cy=ie"
-page = requests.get(URL)
-
-soup = BeautifulSoup(page.content, "html.parser")
-
-results = soup.find(id="ResultsContainer")
-
-jobs = results.find_all("section", class_="card-content")
-
-for job in jobs:
-    title_elem = job.find("h2", class_="title")
-    company_elem = job.find("div", class_="company")
-    location_elem = job.find("div", class_="location")
-    date_elem = job.find("div", class_="meta flex-col")
-    if None in (title_elem, company_elem, location_elem, date_elem):
-        continue
-    print(title_elem.text.strip())
-    print(company_elem.text.strip())
-    print(date_elem.text.strip())
-    print()
+f = open("page.html", "r")
+f.close()
+# row 949
