@@ -12,7 +12,17 @@
 # available (presumably because those recruiters pay more).
 
 import requests
+from os import path
+from lxml import html, etree
 
-f = open("page.html", "r")
-f.close()
-# row 949
+county = "county__3AClare"
+URL = "https://www.monster.ie/jobs/search/?q=python-developer&where={}&cy=ie".format(county)
+
+page = requests.get(URL)
+doc = html.fromstring(page.content)
+
+job_titles = doc.xpath("//*[@id='SearchResults']/section/div/div[2]/header/h2/a/text()")
+for v in job_titles:
+    print(v)
+
+print("Aww, YISSSSSS")
