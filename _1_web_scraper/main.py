@@ -15,14 +15,17 @@ import requests
 from os import path
 from lxml import html, etree
 
-county = "county__3AClare"
+county = ""
 URL = "https://www.monster.ie/jobs/search/?q=python-developer&where={}&cy=ie".format(county)
 
 page = requests.get(URL)
 doc = html.fromstring(page.content)
 
-job_titles = doc.xpath("//*[@id='SearchResults']/section/div/div[2]/header/h2/a/text()")
-for v in job_titles:
-    print(v)
+# job_title_elements = doc.xpath("//*[@id='SearchResults']/section/div/div[2]/header/h2/a")
+# job_titles now contains a list of all job titles but not the link or any other info
 
-print("Aww, YISSSSSS")
+job_title_links = doc.xpath("//*[@id='SearchResults']/section/div/div[2]/header/h2/a/@href")
+job_title_names = doc.xpath("//*[@id='SearchResults']/section/div/div[2]/header/h2/a/text()")
+
+for v in job_title_links:
+    print(v)
