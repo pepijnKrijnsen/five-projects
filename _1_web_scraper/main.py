@@ -12,20 +12,32 @@
 # available (presumably because those recruiters pay more).
 
 import requests
-from os import path
-from lxml import html, etree
+from lxml import html 
 
-county = ""
-URL = "https://www.monster.ie/jobs/search/?q=python-developer&where={}&cy=ie".format(county)
+county = "Limerick"
+URL = "https://www.monster.ie/jobs/search/?q=python-developer&cy=ie&stpage=1&page=6"
 
 page = requests.get(URL)
 doc = html.fromstring(page.content)
 
-# job_title_elements = doc.xpath("//*[@id='SearchResults']/section/div/div[2]/header/h2/a")
-# job_titles now contains a list of all job titles but not the link or any other info
-
 job_title_links = doc.xpath("//*[@id='SearchResults']/section/div/div[2]/header/h2/a/@href")
 job_title_names = doc.xpath("//*[@id='SearchResults']/section/div/div[2]/header/h2/a/text()")
+job_location = doc.xpath("//*[@id='SearchResults']/section/div/div[2]/div[2]/a/text()")
 
-for v in job_title_links:
+intro = """
+################################
+JOB OVERVIEW
+################################
+"""
+preferred_county = "Jobs in {}\n".format(county)
+
+i = 0
+for v in job_location:
+    i += 1
     print(v)
+    if county in v:
+        results = job_title_links[i] + ", " + job_location[i] + "\n"
+
+print(intro)
+print(preferred_county)
+print(results)
